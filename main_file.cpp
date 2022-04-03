@@ -1,6 +1,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include <SOIL/SOIL.h>
 #include "shaderprogram.h"
 #include <cmath> 
 
@@ -38,15 +39,24 @@ int main(int argc, char *argv[])
     glViewport(0, 0, width, height);
 
     GLfloat vertices[] = {
-        0.5f,-0.5f, 0.0f,   1.0f,0.0f,0.0f,
-        -0.5f, -0.5f, 0.0f, 0.0f,1.0f,0.0f,
-        0.0f, 0.5f, 0.0f,   0.0f,0.0f,1.0f
-        };
+    // Позиции          // Цвета             // Текстурные координаты
+     0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // Верхний правый
+     0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // Нижний правый
+    -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // Нижний левый
+    -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f    // Верхний левый
+};
+
+
+     GLuint indices[] = {  // Note that we start from 0!
+        0, 1, 3,  // First Triangle
+        1, 2, 3   // Second Triangle
+    };
 
     GLuint VBO,VAO,EBO;
     glGenVertexArrays(1,&VAO);
     glGenBuffers(1,&VBO);
-    //glGenBuffers(1,&EBO);
+    glGenBuffers(1,&EBO);
+    
 
     glBindVertexArray(VAO);
     
@@ -55,16 +65,43 @@ int main(int argc, char *argv[])
     glBufferData(GL_ARRAY_BUFFER,sizeof(vertices),vertices,GL_STATIC_DRAW);
 
      //Копируем наши индексы в буфер для OpenGL
-    //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-   //glBufferData(GL_ELEMENT_ARRAY_BUFFER,sizeof(vertices),indices,GL_STATIC_DRAW);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER,sizeof(indices),indices,GL_STATIC_DRAW);
 
-    //Атрибут с координатами  
-    glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,6*sizeof(GLfloat),(GLvoid*)0);
+    GLuint texture1, texture2;
+
+    glGenTextures(1,&texture1); 
+    glBindTexture(GL_TEXTURE_2D,texture1);
+
+    //Подключаем текстуры  
+    unsigned char* image = SOIL_load_image("texture/container.jpg", &width, &height, 0, SOIL_LOAD_RGB);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
+    glGenerateMipmap(GL_TEXTURE_2D);
+    SOIL_free_image_data(image);
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    glGenTextures(1,&texture2);
+    glBindTexture(GL_TEXTURE_2D,texture2);
+
+     image = SOIL_load_image("texture/awesomeface.png",&width,&height,0,SOIL_LOAD_RGB);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
+    glGenerateMipmap(GL_TEXTURE_2D);
+    SOIL_free_image_data(image);
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+
+    
+       //Атрибут с координатами  
+    glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,8*sizeof(GLfloat),(GLvoid*)0);
     glEnableVertexAttribArray(0);
     
     //Атрибут с цветом
-    glVertexAttribPointer(1,3,GL_FLOAT,GL_FALSE,6*sizeof(GLfloat),(GLvoid*)(3* sizeof(GLfloat)));
+    glVertexAttribPointer(1,3,GL_FLOAT,GL_FALSE,8*sizeof(GLfloat),(GLvoid*)(3* sizeof(GLfloat)));
     glEnableVertexAttribArray(1);
+    
+    //Атрибут с текстурой
+    glVertexAttribPointer(2,2,GL_FLOAT,GL_FALSE,8*sizeof(GLfloat),(GLvoid*)(6 * sizeof(GLfloat)));
+    glEnableVertexAttribArray(2);
 
 
     glBindVertexArray(0);
@@ -92,10 +129,18 @@ int main(int argc, char *argv[])
         glUniform4f(vertexColorLocation,0.0f,greenValue,0.0f,1.0f);
         */
 
-        //Рисуем 
-        glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES,0,3);
+        //Рисуем
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, texture1);
+        glUniform1i(glGetUniformLocation(basicShader->shaderProgram,"ourTexture2"),0);    
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D,texture2);
+        glUniform1i(glGetUniformLocation(basicShader->shaderProgram,"ourTexture2"),1);
+        
 
+        glBindVertexArray(VAO);
+        glDrawElements(GL_TRIANGLES,6,GL_UNSIGNED_INT,0);
+        
         //Режим Wireframe 
 
         //glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
