@@ -1,6 +1,9 @@
+#include <iostream>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include <iostream>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include <SOIL/SOIL.h>
 #include "shaderprogram.h"
 #include <cmath> 
@@ -89,9 +92,7 @@ int main(int argc, char *argv[])
     SOIL_free_image_data(image);
     glBindTexture(GL_TEXTURE_2D, 0);
 
-
-    
-       //Атрибут с координатами  
+    //Атрибут с координатами  
     glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,8*sizeof(GLfloat),(GLvoid*)0);
     glEnableVertexAttribArray(0);
     
@@ -119,6 +120,15 @@ int main(int argc, char *argv[])
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
        
+        //Добовляем текстуры 
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, texture1);
+        glUniform1i(glGetUniformLocation(basicShader->shaderProgram,"ourTexture2"),0);    
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D,texture2);
+        glUniform1i(glGetUniformLocation(basicShader->shaderProgram,"ourTexture2"),1);
+        
+      
         //Aктивируем шейдерную программу
         basicShader->use();
 
@@ -130,16 +140,27 @@ int main(int argc, char *argv[])
         */
 
         //Рисуем
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, texture1);
-        glUniform1i(glGetUniformLocation(basicShader->shaderProgram,"ourTexture2"),0);    
-        glActiveTexture(GL_TEXTURE1);
-        glBindTexture(GL_TEXTURE_2D,texture2);
-        glUniform1i(glGetUniformLocation(basicShader->shaderProgram,"ourTexture2"),1);
-        
+        //Cоздаем трансформацию  
+        glm::mat4 trans;
+        trans = glm::translate(trans,glm::vec3(0.4f,0.0f,-0.5f));
+        trans = glm::rotate(trans,(GLfloat)glfwGetTime() * 1.0f , glm::vec3(0.0f,0.0f, 1.0f));
+       // trans = glm::scale(trans,glm::vec3(0.5,0.5,0.5));
 
+        // Получаем юниформ-позицию матрицы и устанавливаем матрицу
+         GLuint transformLoc = glGetUniformLocation(basicShader -> shaderProgram,"transform");
+         glUniformMatrix4fv(transformLoc,1,GL_FALSE,glm::value_ptr(trans));
+     
         glBindVertexArray(VAO);
         glDrawElements(GL_TRIANGLES,6,GL_UNSIGNED_INT,0);
+      
+        trans = glm::mat4(1.0f);
+        trans = glm::translate(trans,glm::vec3(0.1f,0.0f,-0.6f));
+        GLfloat scaleAmount = sin(glfwGetTime());
+        trans = glm::scale(trans,glm::vec3(scaleAmount,scaleAmount,scaleAmount));
+        glUniformMatrix4fv(transformLoc,1,GL_FALSE,glm::value_ptr(trans));
+
+       
+
         
         //Режим Wireframe 
 

@@ -7,9 +7,11 @@ layout (location = 2) in vec2 texCoord;// Устанавливаем позиц�
 out vec3 ourColor;//Передаем цвет во фрагментный шейдер 
 out vec2 TexCoord;
 
+uniform mat4 transform; //матрица трансформации 
+
 void main()
 {
-    gl_Position = vec4(position, 1.0);
+    gl_Position = vec4(position, 1.0)* transform ;
     ourColor = color;//Устанавливаем значение цвета, полученной от вершинных данных 
     TexCoord = texCoord;
 }
