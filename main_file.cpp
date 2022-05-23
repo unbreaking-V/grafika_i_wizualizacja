@@ -61,51 +61,57 @@ int main(int argc, char *argv[])
 
     glViewport(0, 0, WIDTH, HEIGHT);
 
-    float vertices[] = {
-    -1.0f, -0.5f, -0.5f,  0.0f, 0.0f,
-     1.0f, -0.5f, -0.5f,  1.0f, 0.0f,
-     1.0f,  0.5f, -0.5f,  1.0f, 1.0f,
-     1.0f,  0.5f, -0.5f,  1.0f, 1.0f,
-    -1.0f,  0.5f, -0.5f,  0.0f, 1.0f,
-    -1.0f, -0.5f, -0.5f,  0.0f, 0.0f,
+  float vertices[] = {
+    -10.0f, -0.5f, -0.1f,  0.0f, 0.0f,
+     10.0f, -0.5f, -0.1f,  1.0f, 0.0f,
+     10.0f,  0.5f, -0.1f,  1.0f, 1.0f,
+     10.0f,  0.5f, -0.1f,  1.0f, 1.0f,
+    -10.0f,  0.5f, -0.1f,  0.0f, 1.0f,
+    -10.0f, -0.5f, -0.1f,  0.0f, 0.0f,
 
-    -1.0f, -0.5f,  0.5f,  0.0f, 0.0f,
-     1.0f, -0.5f,  0.5f,  1.0f, 0.0f,
-     1.0f,  0.5f,  0.5f,  1.0f, 1.0f,
-     1.0f,  0.5f,  0.5f,  1.0f, 1.0f,
-    -1.0f,  0.5f,  0.5f,  0.0f, 1.0f,
-    -1.0f, -0.5f,  0.5f,  0.0f, 0.0f,
+    -10.0f, -0.5f,  0.1f,  0.0f, 0.0f,
+     10.0f, -0.5f,  0.1f,  1.0f, 0.0f,
+     10.0f,  0.5f,  0.1f,  1.0f, 1.0f,
+     10.0f,  0.5f,  0.1f,  1.0f, 1.0f,
+    -10.0f,  0.5f,  0.1f,  0.0f, 1.0f,
+    -10.0f, -0.5f,  0.1f,  0.0f, 0.0f,
 
-    -1.0f,  0.5f,  0.5f,  1.0f, 0.0f,
-    -1.0f,  0.5f, -0.5f,  1.0f, 1.0f,
-    -1.0f, -0.5f, -0.5f,  0.0f, 1.0f,
-    -1.0f, -0.5f, -0.5f,  0.0f, 1.0f,
-    -1.0f, -0.5f,  0.5f,  0.0f, 0.0f,
-    -1.0f,  0.5f,  0.5f,  1.0f, 0.0f,
+    -10.0f,  0.5f,  0.1f,  1.0f, 0.0f,
+    -10.0f,  0.5f, -0.1f,  1.0f, 1.0f,
+    -10.0f, -0.5f, -0.1f,  0.0f, 1.0f,
+    -10.0f, -0.5f, -0.1f,  0.0f, 1.0f,
+    -10.0f, -0.5f,  0.1f,  0.0f, 0.0f,
+    -10.0f,  0.5f,  0.1f,  1.0f, 0.0f,
 
-     1.0f,  0.5f,  0.5f,  1.0f, 0.0f,
-     1.0f,  0.5f, -0.5f,  1.0f, 1.0f,
-     1.0f, -0.5f, -0.5f,  0.0f, 1.0f,
-     1.0f, -0.5f, -0.5f,  0.0f, 1.0f,
-     1.0f, -0.5f,  0.5f,  0.0f, 0.0f,
-     1.0f,  0.5f,  0.5f,  1.0f, 0.0f,
+     10.0f,  0.5f,  0.1f,  1.0f, 0.0f,
+     10.0f,  0.5f, -0.1f,  1.0f, 1.0f,
+     10.0f, -0.5f, -0.1f,  0.0f, 1.0f,
+     10.0f, -0.5f, -0.1f,  0.0f, 1.0f,
+     10.0f, -0.5f,  0.1f,  0.0f, 0.0f,
+     10.0f,  0.5f,  0.1f,  1.0f, 0.0f,
 
-    -1.0f, -0.5f, -0.5f,  0.0f, 1.0f,
-     1.0f, -0.5f, -0.5f,  1.0f, 1.0f,
-     1.0f, -0.5f,  0.5f,  1.0f, 0.0f,
-     1.0f, -0.5f,  0.5f,  1.0f, 0.0f,
-    -1.0f, -0.5f,  0.5f,  0.0f, 0.0f,
-    -1.0f, -0.5f, -0.5f,  0.0f, 1.0f,
+    -10.0f, -0.5f, -0.1f,  0.0f, 1.0f,
+     10.0f, -0.5f, -0.1f,  1.0f, 1.0f,
+     10.0f, -0.5f,  0.1f,  1.0f, 0.0f,
+     10.0f, -0.5f,  0.1f,  1.0f, 0.0f,
+    -10.0f, -0.5f,  0.1f,  0.0f, 0.0f,
+    -10.0f, -0.5f, -0.1f,  0.0f, 1.0f,
 
-    -1.0f,  0.5f, -0.5f,  0.0f, 1.0f,
-     1.0f,  0.5f, -0.5f,  1.0f, 1.0f,
-     1.0f,  0.5f,  0.5f,  1.0f, 0.0f,
-     1.0f,  0.5f,  0.5f,  1.0f, 0.0f,
-    -1.0f,  0.5f,  0.5f,  0.0f, 0.0f,
-    -1.0f,  0.5f, -0.5f,  0.0f, 1.0f
+    -10.0f,  0.5f, -0.1f,  0.0f, 1.0f,
+     10.0f,  0.5f, -0.1f,  1.0f, 1.0f,
+     10.0f,  0.5f,  0.1f,  1.0f, 0.0f,
+     10.0f,  0.5f,  0.1f,  1.0f, 0.0f,
+    -10.0f,  0.5f,  0.1f,  0.0f, 0.0f,
+    -10.0f,  0.5f, -0.1f,  0.0f, 1.0f
     };
 
-
+  glm::vec3 cubePositions[] =
+  {
+   glm::vec3( -0.2f,  0.0f,  -5.0f),
+   glm::vec3( 0.0f,  0.0f, 15.0f),
+   glm::vec3( -9.8f,0.0f,5.0f ),
+   glm::vec3 (9.8f,0.0,5.0f)
+   };
 
     
 
@@ -149,7 +155,7 @@ int main(int argc, char *argv[])
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
     // Загружаем, создаем текстуру и генерируем MIP-карты
     int width, height;
-    unsigned char* image = SOIL_load_image("texture/container.jpg", &width, &height, 0 , SOIL_LOAD_RGB );
+    unsigned char* image = SOIL_load_image("texture/stone_1.jpg", &width, &height, 0 , SOIL_LOAD_RGB );
     glTexImage2D(GL_TEXTURE_2D,0,GL_RGB,width,height,0,GL_RGB,GL_UNSIGNED_BYTE, image);
     glGenerateMipmap(GL_TEXTURE_2D);
     SOIL_free_image_data(image);
@@ -216,7 +222,23 @@ int main(int argc, char *argv[])
         //Рисуем 
         glBindVertexArray(VAO);
          
-        glDrawArrays(GL_TRIANGLES,0,36);
+        for(GLuint i = 0; i < 4; i++)
+         {
+         glm::mat4 model = glm::mat4(1.0f);
+         model = glm::translate(model,cubePositions[i]);
+         GLfloat angle_3 = 99.0f;
+         GLfloat angle_4 = 99.0f;
+         if ( i == 2 ){
+             model = glm::rotate(model, angle_3, glm::vec3(0.0f, 1.0f, 0.0f));
+         }
+         else if ( i == 3 )
+         {
+             model = glm::rotate(model, angle_4, glm::vec3(0.0f, 1.0f, 0.0f));
+         }
+         glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+         glDrawArrays(GL_TRIANGLES,0,36);
+         }
+
         glBindVertexArray(0);
 
         glfwSwapBuffers(window);
