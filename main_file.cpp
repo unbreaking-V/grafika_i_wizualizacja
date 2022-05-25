@@ -147,12 +147,12 @@ int main(int argc, char *argv[])
     glBindTexture(GL_TEXTURE_2D,texture1);
 
     //Задаем параметры нашей текстуры 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_MIRRORED_REPEAT);
 
     //Устанавливаем филтрацию текстур 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
     // Загружаем, создаем текстуру и генерируем MIP-карты
     int width, height;
     unsigned char* image = SOIL_load_image("texture/stone_1.jpg", &width, &height, 0 , SOIL_LOAD_RGB );
@@ -226,14 +226,9 @@ int main(int argc, char *argv[])
          {
          glm::mat4 model = glm::mat4(1.0f);
          model = glm::translate(model,cubePositions[i]);
-         GLfloat angle_3 = 99.0f;
-         GLfloat angle_4 = 99.0f;
-         if ( i == 2 ){
-             model = glm::rotate(model, angle_3, glm::vec3(0.0f, 1.0f, 0.0f));
-         }
-         else if ( i == 3 )
-         {
-             model = glm::rotate(model, angle_4, glm::vec3(0.0f, 1.0f, 0.0f));
+         GLfloat angle = 1.57f;
+         if ( i > 1 ){
+             model = glm::rotate(model, angle, glm::vec3(0.0f, 1.0f, 0.0f));
          }
          glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
          glDrawArrays(GL_TRIANGLES,0,36);
